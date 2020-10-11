@@ -1,16 +1,51 @@
-<div class="container">
-  <div class="card mt-3">
-    <div class="card-body">
-      <div class="alert alert-primary"  *ngFor="let item of items | async">
-        <small>{{item.timestamp.seconds*1000 | date: 'medium'}}</small><br>
-        <label>{{item.message}}</label>
+<nav class="navbar navbar-dark bg-dark sticky-top" xmlns:opacity="http://www.w3.org/1999/xhtml">
+  <ul class="nav d-flex justify-content-end w-100" *ngIf="!!authState else loginLink">
+    <li class="nav-item">
+      <a class="nav-link text-white">Logged as: {{authState.email}}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white" (click)="logout()">Logout</a>
+    </li>
+  </ul>
+  <ng-template #loginLink>
+    <ul class="nav d-flex flex-row justify-content-end w-100">
+
+      <li class="nav-item">
+        <a class="nav-link text-white" (click)="login()">Login</a>
+      </li>
+    </ul>
+  </ng-template>
+</nav>
+<div *ngIf="!authState else chat" class="fill w-100 d-flex flex-column justify-content-between">
+  <div  style="margin: auto" class="container">
+    <div class="card mt-3">
+      <div class="card-body text-center">
+        <h4>Trollplication chat</h4>
+        <label>Please login:</label>
+        <button type="submit" class="btn btn-success w-100 mt-1" (click)="login()" *ngIf="!authState">Login with Google
+        </button>
       </div>
     </div>
-    <div class="card-body">
-      <div class="form-group">
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" [(ngModel)]="currentMessage"></textarea>
-        <button class="btn btn-primary w-100 mt-1" (click)="sendMessage()">Send</button>
+  </div>
+</div>
+<ng-template #chat>
+  <div class="container">
+    <div class="card mt-3">
+      <div class="card-body">
+        <div class="alert alert-primary" *ngFor="let item of items | async">
+          <small>{{item.timestamp.seconds * 1000 | date: 'medium'}}</small><br>
+          <label>{{item.message}}</label>
+        </div>
       </div>
+    </div>
+  </div>
+</ng-template>
+<div *ngIf="!!authState" style="border: #333" class="w-100 footer bg-white p-1 mt-3 border-top">
+  <div class="container mt-2">
+    <div class="form-group">
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="2"
+                    [(ngModel)]="currentMessage"></textarea>
+      <button type="submit" class="btn btn-primary w-100 mt-1" (click)="sendMessage()">Send</button>
     </div>
   </div>
 </div>
