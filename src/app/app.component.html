@@ -32,9 +32,9 @@
   <div class="container">
     <div class="card mt-3">
       <div class="card-body">
-        <div class="alert alert-primary" *ngFor="let item of items | async">
+        <div class="alert" [class.alert-primary]="item.email===authState.email" [class.ml-5]="item.email!==authState.email" [class.mr-5]="item.email===authState.email" [class.alert-secondary]="item.email!==authState.email" *ngFor="let item of items | async">
           <small>{{item.timestamp.seconds * 1000 | date: 'medium'}}</small><br>
-          <label>{{item.message}}</label>
+          <small class="text-success mr-1">{{item.email}}:</small><label>{{item.message}}</label>
         </div>
       </div>
     </div>

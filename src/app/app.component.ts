@@ -31,7 +31,13 @@ export class AppComponent {
     }
     const msg = this.currentMessage;
     this.currentMessage = '';
-    await this.firestore.collection('items').add({message: msg, timestamp: new Date()});
+    await this.firestore.collection('items').add({
+      email: this.authState.email,
+      uid: this.authState.uid,
+      message: msg,
+      timestamp: new Date()
+    });
+    window.scrollTo(0, document.body.scrollHeight);
   }
 
 
@@ -42,9 +48,5 @@ export class AppComponent {
 
   public logout(): void {
     this.fireAuth.signOut();
-  }
-
-  public test(): void {
-    console.log(this.authState.email);
   }
 }
